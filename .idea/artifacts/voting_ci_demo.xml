@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="voting-ci-demo">
+    <output-path>$PROJECT_DIR$/out/artifacts/voting-ci-demo</output-path>
+    <root id="archive" name="voting-ci-demo.war" />
+  </artifact>
+</component>
