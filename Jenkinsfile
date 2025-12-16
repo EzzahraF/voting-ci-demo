@@ -1,37 +1,30 @@
 pipeline {
   agent any
-
   environment {
     MAVEN_OPTS = '-Xmx1024m'
+    SONAR_HOST_URL = credentials('SONAR_HOST') // configure Jenkins credentials
+    SONAR_TOKEN = credentials('SONAR_TOKEN')
   }
-
   stages {
     stage('Checkout') {
       steps { checkout scm }
     }
-
     stage('Build') {
       steps {
         sh 'mvn -B -e clean package'
       }
       post {
-        success {
-          archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-        }
+        success { archiveArtifacts artifacts: 'target/*.jar', fingerprint: true }
       }
     }
-
     stage('Unit Tests') {
-      steps {
-        sh 'mvn -B test'
-      }
+      steps { sh 'mvn -B test' }
       post {
         always {
           junit '**/target/surefire-reports/*.xml'
         }
       }
     }
-
     stage('Code Coverage') {
       steps {
         sh 'mvn -B test jacoco:report'
@@ -43,15 +36,13 @@ pipeline {
         ])
       }
     }
-
     stage('SonarQube Analysis') {
       steps {
         withSonarQubeEnv('sonar') {
-          sh "mvn -B sonar:sonar -Dsonar.projectKey=voting-ci-demo"
+          sh "mvn -B sonar:sonar -Dsonar.projectKey=voting-ci-demo -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_TOKEN}"
         }
       }
     }
-
     stage('Quality Gate') {
       steps {
         timeout(time: 5, unit: 'MINUTES') {
@@ -59,14 +50,12 @@ pipeline {
         }
       }
     }
-
     stage('Deliver') {
       steps {
         echo "Delivery step (optional)"
       }
     }
   }
-
   post {
     always {
       archiveArtifacts artifacts: 'target/site/jacoco/**', allowEmptyArchive: true
