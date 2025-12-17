@@ -122,9 +122,9 @@ Commande :
 
 # Auteur
 
-- [Bahamd Imane](https://github.com/Bahamd-Imane)
+- [Bahamd Imane](https://github.com/imanebahamd)
 - [FADYL Ezzahra](https://github.com/EzzahraF)
-- [KHALIFI Yousra](https://github.com/yousra-kh9)
+- [KHALLOUFI Yousra](https://github.com/yousra-kh9)
 
 ## Encadrement
 Projet encadré par : Professeur Bouarifi Walid
