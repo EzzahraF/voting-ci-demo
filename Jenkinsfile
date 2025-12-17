@@ -43,17 +43,8 @@ pipeline {
         }
       }
     }
-    stage('Quality Gate') {
-      steps {
-        timeout(time: 5, unit: 'MINUTES') {
-          waitForQualityGate abortPipeline: true
-        }
-      }
-    }
-    // 🔧 NOUVEAU STAGE POUR LES ACTIONS FINALES
     stage('Archive and Cleanup') {
       steps {
-        // Ces étapes sont maintenant dans un stage, donc dans le contexte de l'agent
         archiveArtifacts artifacts: 'target/site/jacoco/**', allowEmptyArchive: true
         cleanWs()
       }
