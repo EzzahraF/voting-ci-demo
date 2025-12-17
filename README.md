@@ -1,63 +1,53 @@
-### Voting CI Demo – Refactoring & DevOps Pipeline
-# Présentation du projet
+#                                      Voting CI Demo – Refactoring & DevOps Pipeline
 
-Ce projet s’inscrit dans le cadre du module Ingénierie Logicielle à l’ENSA Marrakech. Il a pour objectif de transformer un code legacy de type spaghetti code en une application modulaire, testée et intégrée automatiquement dans une chaîne CI/CD.
+## Présentation du projet
 
-Le système étudié est une application simple de votes en ligne, utilisée comme support pédagogique pour le refactoring, l’application de Design Patterns et la mise en place d’un pipeline DevOps.
+*Ce projet s’inscrit dans le cadre du module Ingénierie Logicielle à l’ENSA Marrakech. Il a pour objectif de transformer un code legacy de type spaghetti code en une application modulaire, testée et intégrée automatiquement dans une chaîne CI/CD. Le système étudié est une application simple de votes en ligne, utilisée comme support pédagogique pour le refactoring, l’application de Design Patterns et la mise en place d’un pipeline DevOps.*
 
-# Objectifs du projet
+## Objectifs du projet
 
-Refactoriser un code monolithique difficilement maintenable
+- *Refactoriser un code monolithique difficilement maintenable*
 
-Appliquer des Design Patterns pour améliorer la qualité logicielle
+- *Appliquer des Design Patterns pour améliorer la qualité logicielle*
 
-Mettre en place des tests unitaires automatisés
+- *Mettre en place des tests unitaires automatisés*
 
-Configurer une pipeline d’intégration continue avec Jenkins
+- *Configurer une pipeline d’intégration continue avec Jenkins*
 
-Analyser la qualité du code avec SonarQube et JaCoCo
+- *Analyser la qualité du code avec SonarQube et JaCoCo*
+## Design Patterns utilisés
+*Trois Design Patterns principaux sont utilisés dans ce projet*: 
 
-# Design Patterns utilisés
+- *Le **Factory** Method permet la création dynamique des repositories sans couplage fort avec l’implémentation concrète.*
 
-Factory Method : création dynamique des repositories sans couplage fort
+- *Le **Strategy** facilite la gestion de plusieurs algorithmes de comptage des votes*
 
-Strategy : gestion de plusieurs algorithmes de comptage des votes
+- *Le **Observer** assure la notification des événements lors de l’ajout d’un vote.*
 
-Observer : notification des événements lors de l’ajout d’un vote
-
-Ces patterns permettent une meilleure séparation des responsabilités, une extensibilité accrue et une meilleure testabilité.
-
-# Architecture du projet
+*Ces patterns garantissent une meilleure séparation des responsabilités, une extensibilité accrue et une testabilité améliorée.*
+## Architecture du projet
 
 L’application est structurée selon une architecture modulaire avec séparation claire des couches :
 
-Model : entités métier (Vote, Candidate)
+**Model** : entités métier (Vote, Candidate)
 
-Repository (DAO) : persistance des données
+**Repository (DAO)** : persistance des données
 
-Service : logique métier et orchestration
+**Service** : logique métier et orchestration
 
-Strategy : algorithmes de dépouillement
+**Strategy** : algorithmes de dépouillement
 
-Observer : notifications d’événements
+**Observer** : notifications d’événements
 
-App : point d’entrée CLI
+**App** : point d’entrée CLI
 
-# Technologies utilisées
+## Technologies utilisées
 
-Java
+*Le projet est développé en **Java 17** et utilise **Maven** pour la gestion du build et des dépendances. Les tests sont réalisés avec **JUnit 5**, et la couverture de code est mesurée avec **JaCoCo**. La qualité du code est analysée via **SonarQube**, et l’automatisation **CI/CD** est assurée par **Jenkins**.*
+##  Structure du projet
 
-Maven
-
-JUnit 5
-
-JaCoCo
-
-SonarQube
-
-Jenkins
-
- Structure du projet
+```text
+![Architecture Overview](docs/screenshots/architecture-overview.png)
 voting-ci-demo/
 ├─ pom.xml
 ├─ Jenkinsfile
@@ -75,81 +65,69 @@ voting-ci-demo/
 │  └─ test/java/org/example/vote/service/
 │     └─ VoteServiceTest.java
 └─ target/
- Exécution du projet
-Compilation et tests
-mvn clean install
-Lancement de l’application (CLI)
-java -jar target/voting-ci-demo.jar
-# Tests unitaires
+```
+
+## Exécution du projet
+*Compilation et tests*
+`mvn clean install`
+
+*Lancement de l’application (CLI)*
+`java -jar target/voting-ci-demo.jar`
+
+## Tests unitaires
 
 La couverture de code est générée automatiquement lors du build.
 
-Rapport HTML : target/site/jacoco/index.html
+Rapport HTML : ``target/site/jacoco/index.html``
 
 Seuil minimal requis : > 60%
 
-📸 Capture du rapport JaCoCo (à insérer ici)
-![Uploading jacoco_test.png…]()
+![JaCoCo test](docs/screenshots/jacoco_test.png)
 
-
-# Analyse de la qualité – SonarQube
+## Analyse de la qualité – SonarQube
 
 L’analyse SonarQube permet de vérifier :
 
-La qualité du code
+*La qualité du code*
 
-Les duplications
+*Les duplications*
 
-Les bugs et code smells
+*Les bugs et code smells*
 
-Le respect du Quality Gate
+*Le respect du Quality Gate*
 
 Commande :
 
-mvn sonar:sonar
-![Uploading sonarqube_dashboard.png…]()
+``mvn sonar:sonar``
 
+![SonarQube Dashboard](docs/screenshots/sonarqube_dashboard.png)
 
-# Pipeline Jenkins
+## Pipeline Jenkins
 
-La pipeline Jenkins automatise les étapes suivantes :
+*La pipeline Jenkins automatise l’ensemble du processus d’intégration continue en exécutant plusieurs étapes clés. Elle commence par la récupération du code source, puis effectue le **build Maven** pour compiler le projet. Ensuite, elle lance l’exécution **des tests unitaires** afin de valider le bon fonctionnement du code. Une fois les tests passés, **la pipeline génère les rapports de couverture de code JaCoCo**, puis réalise l’analyse de la qualité du code avec **SonarQube**. Enfin, elle procède à la vérification du Quality Gate pour s’assurer que le code respecte les standards définis avant d’être intégré.*
 
-Récupération du code source
+![pipline Jenkins](docs/screenshots/jenkins_pipline.png)
 
-Build Maven
-
-Exécution des tests unitaires
-
-Génération des rapports JaCoCo
-
-Analyse SonarQube
-
-Vérification du Quality Gate
-
-
-# Livrables
-
-Code source versionné (Git)
-
-Jenkinsfile fonctionnel
-
-Rapports JUnit, JaCoCo et SonarQube
-
-Rapport de projet (PDF)
-
-Présentation orale et démonstration
 
 # Contexte académique
 
-École : 
+**École** : Ecole Nationale des Sciences Appliquées
 
-Module : Ingénierie Logicielle
+**Module** : Ingénierie Logicielle
 
-Filière : Génie Informatique
+**Filière** : Génie Informatique
 
-✍️ Auteur
+**Année universitaire**: 2025/2026
 
-@Bahamd Imane
-@Elkhlifi Yousra
-@Fadyl Ezzahra
-Année universitaire 2025/2026
+
+# Auteur
+
+- [Bahamd Imane](https://github.com/Bahamd-Imane)
+- [FADYL Ezzahra](https://github.com/EzzahraF)
+- [KHALIFI Yousra](https://github.com/yousra-kh9)
+
+## Encadrement
+Projet encadré par : Professeur Bouarifi Walid
+## Conclusion
+
+*Le projet Voting CI Demo illustre l’importance du refactoring et de l’application des Design Patterns pour transformer un code legacy spaghetti en une application modulaire, testable et maintenable. Grâce à la mise en place d’une pipeline CI/CD avec Jenkins, à l’analyse de la qualité du code via SonarQube, et à la couverture de tests assurée par JaCoCo, le projet démontre comment automatiser efficacement l’intégration et le déploiement tout en garantissant la fiabilité du logiciel. Cette expérience pédagogique permet de renforcer les compétences en architecture logicielle, tests unitaires, modularité et pratiques DevOps, préparant ainsi les étudiants à des projets industriels complexes.*
