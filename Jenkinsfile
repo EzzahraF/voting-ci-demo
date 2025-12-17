@@ -2,7 +2,7 @@ pipeline {
   agent any
   environment {
     MAVEN_OPTS = '-Xmx1024m'
-    SONAR_HOST_URL = credentials('SONAR_HOST') // configure Jenkins credentials
+    SONAR_HOST_URL = credentials('SONAR_HOST') 
     SONAR_TOKEN = credentials('SONAR_TOKEN')
   }
   stages {
@@ -58,8 +58,11 @@ pipeline {
   }
   post {
     always {
-      archiveArtifacts artifacts: 'target/site/jacoco/**', allowEmptyArchive: true
-      cleanWs()
+      // Ces étapes doivent s'exécuter dans un contexte de node (un agent/allocation)
+      node {
+        archiveArtifacts artifacts: 'target/site/jacoco/**', allowEmptyArchive: true
+        cleanWs()
+      }
     }
   }
 }
