@@ -1,184 +1,51 @@
-# Voting CI Demo — Refactoring & CI/CD Project
+### Voting CI Demo – Refactoring & DevOps Pipeline
+# Présentation du projet
 
-Ce projet a été réalisé dans le cadre du module **Ingénierie des Composants – Refactoring**.  
-L’objectif principal est de transformer une application initialement peu structurée en une **architecture propre, modulaire, testable et intégrée dans un pipeline CI/CD**.
+Ce projet s’inscrit dans le cadre du module Ingénierie Logicielle à l’ENSA Marrakech. Il a pour objectif de transformer un code legacy de type spaghetti code en une application modulaire, testée et intégrée automatiquement dans une chaîne CI/CD.
 
-Le projet met l’accent sur :
-- l’application de **design patterns**
-- la **qualité du code**
-- la **testabilité**
-- l’intégration continue (**Jenkins, JaCoCo, SonarQube**)
+Le système étudié est une application simple de votes en ligne, utilisée comme support pédagogique pour le refactoring, l’application de Design Patterns et la mise en place d’un pipeline DevOps.
 
----
+# Objectifs du projet
 
-## Objectifs du projet
+Refactoriser un code monolithique difficilement maintenable
 
-- Refactoriser un code existant vers une architecture maintenable
-- Appliquer des **patterns de conception** (Factory, Strategy, Observer)
-- Séparer clairement les responsabilités (SOLID)
-- Ajouter des **tests unitaires**
-- Mesurer la **couverture de tests**
-- Mettre en place une **pipeline CI/CD**
+Appliquer des Design Patterns pour améliorer la qualité logicielle
 
----
+Mettre en place des tests unitaires automatisés
 
-## Architecture globale
+Configurer une pipeline d’intégration continue avec Jenkins
 
-Le projet est organisé selon une architecture en couches claire :
+Analyser la qualité du code avec SonarQube et JaCoCo
 
+# Design Patterns utilisés
 
+Factory Method : création dynamique des repositories sans couplage fort
 
-src/main/java/org/example/vote/
-├── model/ # Modèle métier (Vote, Candidate)
-├── repo/ # Accès aux données (Repository Pattern)
-├── factory/ # Création des repositories (Factory Method)
-├── strategy/ # Algorithmes de comptage (Strategy)
-├── observer/ # Notification d’événements (Observer)
-├── service/ # Logique métier centrale
-└── App.java # Interface Console (CLI)
+Strategy : gestion de plusieurs algorithmes de comptage des votes
 
+Observer : notification des événements lors de l’ajout d’un vote
 
-Cette organisation améliore :
-- la lisibilité du code
-- la maintenabilité
-- l’extensibilité (ajout de nouvelles stratégies ou implémentations)
+Ces patterns permettent une meilleure séparation des responsabilités, une extensibilité accrue et une meilleure testabilité.
 
----
+# Architecture du projet
 
-## Design Patterns utilisés
+L’application est structurée selon une architecture modulaire avec séparation claire des couches :
 
-### 🔹 Factory Method
-Le pattern **Factory** est utilisé pour instancier les repositories sans coupler le service à une implémentation spécifique.
+Model : entités métier (Vote, Candidate)
 
-Exemple :
-```java
-VoteRepository repo = RepositoryFactory.createRepo("memory");
+Repository (DAO) : persistance des données
 
+Service : logique métier et orchestration
 
-UML :
+Strategy : algorithmes de dépouillement
 
+Observer : notifications d’événements
 
-🔹 Strategy
+App : point d’entrée CLI
 
-Le pattern Strategy permet de changer dynamiquement l’algorithme de comptage des votes sans modifier le service.
+# Technologies utilisées
 
-Implémentations :
-
-PluralityCountingStrategy
-
-RankedChoiceCountingStrategy (optionnelle)
-
- Exemple :
-
-service.count(new PluralityCountingStrategy());
-
-
-UML :
-
-
-🔹 Observer
-
-Le pattern Observer permet de notifier des événements lors de l’ajout d’un vote (ex : logging).
-
- Exemple :
-
-service.addListener(new LoggingVoteListener());
-
-
-📷 UML :
-
-
-Tests unitaires
-
-Des tests unitaires ont été implémentés afin de valider :
-
-le comptage des votes
-
-le reset du système
-
-les différentes stratégies de comptage
-
-Framework utilisé : JUnit 5
-
-📌 Commande :
-
-mvn clean verify
-
-
-📷 Résultats des tests :
-
-
-📊 Couverture de tests — JaCoCo
-
-La couverture de tests est mesurée avec JaCoCo.
-
-📈 Résumé global :
-
-Instructions : 97 %
-
-Branches : 91 %
-
-Classes : 100 %
-
-📷 Rapport JaCoCo :
-
-
-📌 Rapport HTML :
-
-target/site/jacoco/index.html
-
-🔄 CI/CD — Jenkins & SonarQube
-
-Une pipeline CI/CD complète est définie via Jenkinsfile :
-
-Étapes :
-
-Checkout du code
-
-Build Maven
-
-Tests unitaires
-
-Génération JaCoCo
-
-Analyse SonarQube
-
-Quality Gate
-
-📷 Jenkins Pipeline :
-
-
-📷 SonarQube Dashboard :
-
-
-▶ Exécution de l’application
-
-L’application est une interface console (CLI), choix volontaire afin de se concentrer sur :
-
-la logique métier
-
-la qualité du code
-
-la refactorisation
-
-Lancement :
-
-mvn exec:java
-
-
-Fonctionnalités :
-
-Ajouter un vote
-
-Compter les votes
-
-Réinitialiser
-
-Quitter
-
-📌 Choix techniques
-
-Java 17
+Java
 
 Maven
 
@@ -186,83 +53,103 @@ JUnit 5
 
 JaCoCo
 
-Jenkins
-
 SonarQube
 
-Le choix d’une application CLI permet de respecter les objectifs du module IC-Refactoring, sans ajouter une complexité inutile liée à une interface graphique.
+Jenkins
 
-✍ Auteur
+ Structure du projet
+voting-ci-demo/
+├─ pom.xml
+├─ Jenkinsfile
+├─ sonar-project.properties
+├─ README.md
+├─ src/
+│  ├─ main/java/org/example/vote/
+│  │  ├─ model/
+│  │  ├─ repo/
+│  │  ├─ factory/
+│  │  ├─ service/
+│  │  ├─ strategy/
+│  │  ├─ observer/
+│  │  └─ App.java
+│  └─ test/java/org/example/vote/service/
+│     └─ VoteServiceTest.java
+└─ target/
+ Exécution du projet
+Compilation et tests
+mvn clean install
+Lancement de l’application (CLI)
+java -jar target/voting-ci-demo.jar
+# Tests unitaires
 
-Projet réalisé par Ezzahra
-Module : Ingénierie des Composants – Refactoring & CI/CD
+La couverture de code est générée automatiquement lors du build.
+
+Rapport HTML : target/site/jacoco/index.html
+
+Seuil minimal requis : > 60%
+
+📸 Capture du rapport JaCoCo (à insérer ici)
+![Uploading jacoco_test.png…]()
 
 
----
+# Analyse de la qualité – SonarQube
 
-# ✅ COMMENT AJOUTER LES IMAGES (TRÈS IMPORTANT)
+L’analyse SonarQube permet de vérifier :
 
-## 📁 Étape 1 — Créer les dossiers
+La qualité du code
 
-À la racine du projet :
+Les duplications
+
+Les bugs et code smells
+
+Le respect du Quality Gate
+
+Commande :
+
+mvn sonar:sonar
+![Uploading sonarqube_dashboard.png…]()
 
 
+# Pipeline Jenkins
 
-docs/
-├── uml/
-├── tests/
-└── ci/
+La pipeline Jenkins automatise les étapes suivantes :
+
+Récupération du code source
+
+Build Maven
+
+Exécution des tests unitaires
+
+Génération des rapports JaCoCo
+
+Analyse SonarQube
+
+Vérification du Quality Gate
 
 
----
+# Livrables
 
-## 📷 Étape 2 — Ajouter les images
+Code source versionné (Git)
 
-### 🔹 UML (exportées depuis PlantUML)
-- `docs/uml/factory-pattern.png`
-- `docs/uml/strategy-pattern.png`
-- `docs/uml/observer-pattern.png`
+Jenkinsfile fonctionnel
 
-### 🔹 Tests & couverture
-- `docs/tests/tests-success.png`
-- `docs/tests/jacoco-report.png`
+Rapports JUnit, JaCoCo et SonarQube
 
-### 🔹 CI/CD
-- `docs/ci/jenkins-pipeline.png`
-- `docs/ci/sonar-dashboard.png`
+Rapport de projet (PDF)
 
-📌 **Astuce** :  
-- JaCoCo → ouvre `target/site/jacoco/index.html` → screenshot  
-- SonarQube → screenshot dashboard  
-- Jenkins → screenshot pipeline verte  
+Présentation orale et démonstration
 
----
+# Contexte académique
 
-## 🧪 Étape 3 — Commit Git
+École : 
 
-```bash
-git add README.md docs/
-git commit -m "Add professional README with UML, tests and CI screenshots"
-git push
+Module : Ingénierie Logicielle
 
-🏆 Résultat final
+Filière : Génie Informatique
 
-Avec cette README :
+✍️ Auteur
 
-✅ très professionnelle
-
-✅ claire et structurée
-
-✅ alignée avec IC-Refactoring
-
-✅ prête pour GitHub / soutenance
-
-👉 Tu montres clairement que tu maîtrises :
-
-le refactoring
-
-les patterns
-
-la qualité logicielle
-
-la CI/CD
+@Bahamd Imane
+@Elkhlifi Yousra
+@Fadyl Ezzahra
+Année universitaire 2025/2026
