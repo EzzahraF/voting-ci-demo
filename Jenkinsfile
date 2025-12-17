@@ -56,13 +56,4 @@ pipeline {
       }
     }
   }
-  post {
-    always {
-      // Ces étapes doivent s'exécuter dans un contexte de node (un agent/allocation)
-      node {
-        archiveArtifacts artifacts: 'target/site/jacoco/**', allowEmptyArchive: true
-        cleanWs()
-      }
-    }
-  }
 }
