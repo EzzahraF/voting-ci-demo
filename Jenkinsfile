@@ -2,7 +2,7 @@ pipeline {
   agent any
   environment {
     MAVEN_OPTS = '-Xmx1024m'
-    SONAR_HOST_URL = credentials('SONAR_HOST') 
+    SONAR_HOST_URL = credentials('SONAR_HOST')
     SONAR_TOKEN = credentials('SONAR_TOKEN')
   }
   stages {
@@ -50,9 +50,12 @@ pipeline {
         }
       }
     }
-    stage('Deliver') {
+    // 🔧 NOUVEAU STAGE POUR LES ACTIONS FINALES
+    stage('Archive and Cleanup') {
       steps {
-        echo "Delivery step (optional)"
+        // Ces étapes sont maintenant dans un stage, donc dans le contexte de l'agent
+        archiveArtifacts artifacts: 'target/site/jacoco/**', allowEmptyArchive: true
+        cleanWs()
       }
     }
   }
