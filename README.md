@@ -47,7 +47,6 @@ L’application est structurée selon une architecture modulaire avec séparatio
 ##  Structure du projet
 
 ```text
-![Architecture Overview](docs/screenshots/architecture-overview.png)
 voting-ci-demo/
 ├─ pom.xml
 ├─ Jenkinsfile
